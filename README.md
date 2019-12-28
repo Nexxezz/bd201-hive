@@ -12,6 +12,6 @@
   * check that confluent-hub-client is avaliable:
     * which confluent-hub
   * download confluent CLI:
-    * curl -L https://cnfl.io/cli | sh -s -- -b /<path-to-directory>/bin
+    * curl -L https://cnfl.io/cli | sh -s -- -b /path-to-directory/bin
   * download HDFS 3 Sink Connector:
       * confluent-hub install confluentinc/kafka-connect-hdfs3:latest
