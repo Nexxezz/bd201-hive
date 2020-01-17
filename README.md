@@ -5,7 +5,7 @@ Follow steps for TopicSaver3 in [README.md](https://github.com/Nexxezz/kafkastre
  ### Create external table based on expedia data stored in HDFS.
  * read avro schema with avro-tools:
    * download jar file and get avro schema from file: 
-     wget https://repo1.maven.org/maven2/org/apache/avro/avro-tools/1.9.1/avro-tools-1.9.1.jar && hadoop -jar avro-tools-1.7.7.jar getschema /PATH/TO/AVRO/FILE  > expedia.avsc
+   wget https://repo1.maven.org/maven2/org/apache/avro/avro-tools/1.9.1/avro-tools-1.9.1.jar && hadoop -jar avro-tools-1.7.7.jar getschema /PATH/TO/AVRO/FILE  > expedia.avsc
  * move expedia schema to HDFS:
    hdfs dfs -put expedia.avsc /path/to/datset
  * create external table for expedia table:
