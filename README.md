@@ -1,7 +1,7 @@
 # bd201-hive
 ## TASK 1. 
 ### Transfer data into HDP sandbox. Create external table based on this data.
-Follow steps for TopicSaver3 in [https://github.com/Nexxezz/kafkastreamsapp/blob/master/README.md]
+Follow steps for TopicSaver3 in [README.md](https://github.com/Nexxezz/kafkastreamsapp/blob/master/README.md)
  ## Create external table based on expedia data stored in HDFS.
  * read avro schema with avro-tools:
    * download jar file and get avro schema from file: 
