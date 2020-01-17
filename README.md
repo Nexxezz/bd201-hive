@@ -1,21 +1,8 @@
 # bd201-hive
 ## TASK 1. 
 ### Transfer data into HDP sandbox. Create external table based on this data.
-  * download confluent-hub-client:
-    * http://client.hub.confluent.io/confluent-hub-client-latest.tar.gz?_ga=2.246111364.1893535373.1577546028-1748580960.1570602644
-    * tar -xvf /path/to/downloaded/tar/archive
-  * move unpacked tar file to the sandbox-hdp:
-    * docker cp /path/to/unpacked/tar/archive sandbox-hdp:/target/directory/
-  * add confluent-hub-client to the PATH:
-    * vim ~/.bash_profile -> add :path/to/conflient-connect-client/bin to the PATH variable
-    * source ~/.bash_profile
-  * check that confluent-hub-client is avaliable:
-    * which confluent-hub
-  * download confluent CLI:
-    * curl -L https://cnfl.io/cli | sh -s -- -b /path-to-directory/bin
-  * download HDFS 3 Sink Connector:
-      * confluent-hub install confluentinc/kafka-connect-hdfs3:latest
-### Create external table based on expedia data stored in HDFS.
+Follow steps for TopicSaver3 in [https://github.com/Nexxezz/kafkastreamsapp/blob/master/README.md]
+ ## Create external table based on expedia data stored in HDFS.
  * read avro schema with avro-tools:
    * download jar file and get avro schema from file: 
    wget https://repo1.maven.org/maven2/org/apache/avro/avro-tools/1.9.1/avro-tools-1.9.1.jar && hadoop -jar avro-tools-1.7.7.jar getschema /PATH/TO/AVRO/FILE  > expedia.avsc
