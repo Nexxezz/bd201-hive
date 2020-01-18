@@ -22,6 +22,6 @@ Follow steps for TopicSaver3 in [README.md](https://github.com/Nexxezz/kafkastre
     ```CREATE EXTERNAL TABLE hotels_weather (hotel_id double,hotel_name string,avg_tmpr_f double,avg_tmpr_c double,wthr_date string)  
     STORED AS PARQUET LOCATION '/tmp/dataset/join_result/';```
   ### Join hotel/weather table with expedia table via Hive by hotel_id (data will be multiplied by date) 
-    ```CREATE TABLE hotels_weather_expedia AS SELECT * FROM hotels_weather INNER JOIN expedia ON hotels_weather.hotelId = expedia.hotel_id LIMIT 10000;```
-  ###Using Hive calculate:
-   ####Top 10 hotels with max absolute temperature difference by month:
+    ```CREATE TABLE hotels_weather_expedia AS SELECT * FROM hotels_weather INNER JOIN expedia ON hotels_weather.hotelId = expedia.hotel_id LIMIT 10000;```  
+###Using Hive calculate:  
+####Top 10 hotels with max absolute temperature difference by month:
