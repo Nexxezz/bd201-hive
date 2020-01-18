@@ -25,3 +25,4 @@ Follow steps for TopicSaver3 in [README.md](https://github.com/Nexxezz/kafkastre
     ```CREATE TABLE hotels_weather_expedia AS SELECT * FROM hotels_weather INNER JOIN expedia ON hotels_weather.hotelId = expedia.hotel_id LIMIT 10000;```  
 ### Using Hive calculate:  
 #### Top 10 hotels with max absolute temperature difference by month:
+```CREATE TABLE  hotels_weather_abs_temp_diff AS SELECT hotelid, hotelname, month(weatherdate) AS wthr_month, MAX(averagetemperaturecelsius)-MIN(averagetemperaturecelsius) AS c_diff, MAX(averagetemperaturefahrenheit)-MIN(averagetemperaturefahrenheit) AS f_diff FROM hotels_weather_expedia GROUP BY month(weatherdate), hotelid, hotelname;```    
