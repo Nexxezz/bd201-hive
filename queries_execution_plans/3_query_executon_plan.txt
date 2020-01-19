@@ -1,0 +1,54 @@
++----------------------------------------------------+
+|                      Explain                       |
++----------------------------------------------------+
+| Plan optimized by CBO.                             |
+|                                                    |
+| Vertex dependency in root stage                    |
+| Map 3 <- Map 4 (BROADCAST_EDGE), Reducer 2 (BROADCAST_EDGE) |
+| Reducer 2 <- Map 1 (SIMPLE_EDGE)                   |
+|                                                    |
+| Stage-0                                            |
+|   Fetch Operator                                   |
+|     limit:-1                                       |
+|     Stage-1                                        |
+|       Map 3 vectorized                             |
+|       File Output Operator [FS_136]                |
+|         Select Operator [SEL_135] (rows=12100 width=38) |
+|           Output:["_col0","_col1","_col2","_col3","_col4","_col5","_col6","_col7","_col8","_col9","_col10","_col11","_col12","_col13","_col14","_col15","_col16","_col17","_col18","_col19","_col20","_col21","_col22","_col23","_col24","_col25","_col26","_col27","_col28","_col29","_col30","_col31","_col32","_col33","_col34","_col35","_col36","_col37","_col38","_col39","_col40","_col41","_col42","_col43","_col44","_col45","_col46","_col47","_col48","_col49","_col50","_col51","_col52","_col53","_col54","_col55","_col56","_col57","_col58"] |
+|           Map Join Operator [MAPJOIN_134] (rows=12100 width=38) |
+|             Conds:MAPJOIN_133._col0, _col1, _col2, _col4=RS_130._col3, _col2, _col5, _col4(Inner),HybridGraceHashJoin:true,Output:["_col0","_col1","_col2","_col3","_col4","_col5","_col6","_col7","_col8","_col9","_col10","_col11","_col12","_col13","_col14","_col15","_col16","_col17","_col18","_col19","_col20","_col21","_col22","_col23","_col24","_col25","_col26","_col27","_col28","_col29","_col30","_col31","_col32","_col33","_col34","_col35","_col36","_col37","_col38","_col39","_col40","_col41","_col42","_col43","_col44","_col45","_col46","_col47","_col48","_col49","_col50","_col51","_col52","_col53","_col54","_col55","_col56"] |
+|           <-Map 4 [BROADCAST_EDGE] vectorized      |
+|             BROADCAST [RS_130]                     |
+|               PartitionCols:_col3, _col2, _col5, _col4 |
+|               Select Operator [SEL_129] (rows=10000 width=38) |
+|                 Output:["_col0","_col1","_col2","_col3","_col4","_col5","_col6","_col7","_col8","_col9","_col10","_col11","_col12","_col13","_col14","_col15","_col16","_col17","_col18","_col19","_col20","_col21","_col22","_col23","_col24"] |
+|                 Filter Operator [FIL_128] (rows=10000 width=38) |
+|                   predicate:(id is not null and hotelid is not null and hotelname is not null and weatherdate is not null) |
+|                   TableScan [TS_10] (rows=10000 width=38) |
+|                     default@hotels_weather_expedia,w2, ACID table,Tbl:COMPLETE,Col:NONE,Output:["averagetemperaturecelsius","averagetemperaturefahrenheit","hotelid","hotelname","weatherdate","id","date_time","site_name","posa_continent","user_location_country","user_location_region","user_location_city","orig_destination_distance","user_id","is_mobile","is_package","channel","srch_ci","srch_co","srch_adults_cnt","srch_children_cnt","srch_rm_cnt","srch_destination_id","srch_destination_type_id","hotel_id"] |
+|           <-Map Join Operator [MAPJOIN_133] (rows=11000 width=38) |
+|               Conds:RS_127._col0, _col1, _col2, _col3=SEL_132._col3, _col2, _col5, _col4(Inner),HybridGraceHashJoin:true,Output:["_col0","_col1","_col2","_col3","_col4","_col5","_col6","_col7","_col8","_col9","_col10","_col11","_col12","_col13","_col14","_col15","_col16","_col17","_col18","_col19","_col20","_col21","_col22","_col23","_col24","_col25","_col26","_col27","_col28","_col29","_col30","_col31"] |
+|             <-Reducer 2 [BROADCAST_EDGE] vectorized |
+|               BROADCAST [RS_127]                   |
+|                 PartitionCols:_col0, _col1, _col2, _col3 |
+|                 Select Operator [SEL_126] (rows=1666 width=38) |
+|                   Output:["_col0","_col1","_col2","_col3","_col4","_col5","_col6"] |
+|                   Group By Operator [GBY_125] (rows=1666 width=38) |
+|                     Output:["_col0","_col1","_col2","_col3","_col4","_col5","_col6","_col7","_col8"],aggregations:["sum(VALUE._col0)","count(VALUE._col1)","sum(VALUE._col2)","count(VALUE._col3)"],keys:KEY._col0, KEY._col1, KEY._col2, KEY._col3, KEY._col4 |
+|                   <-Map 1 [SIMPLE_EDGE] vectorized |
+|                     SHUFFLE [RS_124]               |
+|                       PartitionCols:_col0, _col1, _col2, _col3, _col4 |
+|                       Group By Operator [GBY_123] (rows=3333 width=38) |
+|                         Output:["_col0","_col1","_col2","_col3","_col4","_col5","_col6","_col7","_col8"],aggregations:["sum(averagetemperaturecelsius)","count(averagetemperaturecelsius)","sum(averagetemperaturefahrenheit)","count(averagetemperaturefahrenheit)"],keys:hotelname, hotelid, id, srch_ci, srch_co |
+|                         Filter Operator [FIL_122] (rows=3333 width=38) |
+|                           predicate:((datediff(srch_co, srch_ci) >= 7) and id is not null and hotelid is not null and hotelname is not null and srch_ci is not null and srch_co is not null) |
+|                           TableScan [TS_0] (rows=10000 width=38) |
+|                             default@hotels_weather_expedia,hotels_weather_expedia, ACID table,Tbl:COMPLETE,Col:NONE,Output:["averagetemperaturecelsius","averagetemperaturefahrenheit","hotelid","hotelname","id","srch_ci","srch_co"] |
+|             <-Select Operator [SEL_132] (rows=10000 width=38) |
+|                 Output:["_col0","_col1","_col2","_col3","_col4","_col5","_col6","_col7","_col8","_col9","_col10","_col11","_col12","_col13","_col14","_col15","_col16","_col17","_col18","_col19","_col20","_col21","_col22","_col23","_col24"] |
+|                 Filter Operator [FIL_131] (rows=10000 width=38) |
+|                   predicate:(id is not null and hotelid is not null and hotelname is not null and weatherdate is not null) |
+|                   TableScan [TS_7] (rows=10000 width=38) |
+|                     default@hotels_weather_expedia,w1, ACID table,Tbl:COMPLETE,Col:NONE,Output:["averagetemperaturecelsius","averagetemperaturefahrenheit","hotelid","hotelname","weatherdate","id","date_time","site_name","posa_continent","user_location_country","user_location_region","user_location_city","orig_destination_distance","user_id","is_mobile","is_package","channel","srch_ci","srch_co","srch_adults_cnt","srch_children_cnt","srch_rm_cnt","srch_destination_id","srch_destination_type_id","hotel_id"] |
+|                                                    |
++----------------------------------------------------+

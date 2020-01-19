@@ -1,0 +1,370 @@
++----------------------------------------------------+
+|                      Explain                       |
++----------------------------------------------------+
+| OPTIMIZED SQL: SELECT `t1`.`$f0` AS `hotelname`, `t1`.`$f1` AS `hotelid`, `t1`.`$f2` AS `id`, `t1`.`$f3` AS `srch_ci`, `t1`.`$f4` AS `srch_co`, `t1`.`$f5` AS `_o__c5`, `t1`.`$f6` AS `temp_average`, `t3`.`averagetemperaturecelsius`, `t3`.`averagetemperaturefahrenheit`, `t3`.`hotelid` AS `hotelid1`, `t3`.`hotelname` AS `hotelname1`, `t3`.`weatherdate`, `t3`.`id` AS `id1`, `t3`.`date_time`, `t3`.`site_name`, `t3`.`posa_continent`, `t3`.`user_location_country`, `t3`.`user_location_region`, `t3`.`user_location_city`, `t3`.`orig_destination_distance`, `t3`.`user_id`, `t3`.`is_mobile`, `t3`.`is_package`, `t3`.`channel`, `t3`.`srch_ci` AS `srch_ci1`, `t3`.`srch_co` AS `srch_co1`, `t3`.`srch_adults_cnt`, `t3`.`srch_children_cnt`, `t3`.`srch_rm_cnt`, `t3`.`srch_destination_id`, `t3`.`srch_destination_type_id`, `t3`.`hotel_id`, `t5`.`averagetemperaturecelsius` AS `averagetemperaturecelsius1`, `t5`.`averagetemperaturefahrenheit` AS `averagetemperaturefahrenheit1`, `t5`.`hotelid` AS `hotelid2`, `t5`.`hotelname` AS `hotelname2`, `t5`.`weatherdate` AS `weatherdate1`, `t5`.`id` AS `id2`, `t5`.`date_time` AS `date_time1`, `t5`.`site_name` AS `site_name1`, `t5`.`posa_continent` AS `posa_continent1`, `t5`.`user_location_country` AS `user_location_country1`, `t5`.`user_location_region` AS `user_location_region1`, `t5`.`user_location_city` AS `user_location_city1`, `t5`.`orig_destination_distance` AS `orig_destination_distance1`, `t5`.`user_id` AS `user_id1`, `t5`.`is_mobile` AS `is_mobile1`, `t5`.`is_package` AS `is_package1`, `t5`.`channel` AS `channel1`, `t5`.`srch_ci` AS `srch_ci2`, `t5`.`srch_co` AS `srch_co2`, `t5`.`srch_adults_cnt` AS `srch_adults_cnt1`, `t5`.`srch_children_cnt` AS `srch_children_cnt1`, `t5`.`srch_rm_cnt` AS `srch_rm_cnt1`, `t5`.`srch_destination_id` AS `srch_destination_id1`, `t5`.`srch_destination_type_id` AS `srch_destination_type_id1`, `t5`.`hotel_id` AS `hotel_id1`, `t3`.`averagetemperaturecelsius` - `t5`.`averagetemperaturecelsius` AS `temp_diff_c`, `t3`.`averagetemperaturefahrenheit` - `t5`.`averagetemperaturefahrenheit` AS `temp_diff_f` |
+| FROM (SELECT `hotelname` AS `$f0`, `hotelid` AS `$f1`, `id` AS `$f2`, `srch_ci` AS `$f3`, `srch_co` AS `$f4`, SUM(`averagetemperaturecelsius`) / COUNT(`averagetemperaturecelsius`) AS `$f5`, SUM(`averagetemperaturefahrenheit`) / COUNT(`averagetemperaturefahrenheit`) AS `$f6` |
+| FROM `default`.`hotels_weather_expedia`            |
+| WHERE DATEDIFF(`srch_co`, `srch_ci`) >= 7 AND `id` IS NOT NULL AND `hotelid` IS NOT NULL AND `hotelname` IS NOT NULL AND `srch_ci` IS NOT NULL AND `srch_co` IS NOT NULL |
+| GROUP BY `hotelid`, `hotelname`, `id`, `srch_ci`, `srch_co`) AS `t1` |
+| INNER JOIN (SELECT `averagetemperaturecelsius`, `averagetemperaturefahrenheit`, `hotelid`, `hotelname`, `weatherdate`, `id`, `date_time`, `site_name`, `posa_continent`, `user_location_country`, `user_location_region`, `user_location_city`, `orig_destination_distance`, `user_id`, `is_mobile`, `is_package`, `channel`, `srch_ci`, `srch_co`, `srch_adults_cnt`, `srch_children_cnt`, `srch_rm_cnt`, `srch_destination_id`, `srch_destination_type_id`, `hotel_id` |
+| FROM `default`.`hotels_weather_expedia`            |
+| WHERE `id` IS NOT NULL AND `hotelid` IS NOT NULL AND `hotelname` IS NOT NULL AND `weatherdate` IS NOT NULL) AS `t3` ON `t1`.`$f2` = `t3`.`id` AND `t1`.`$f1` = `t3`.`hotelid` AND `t1`.`$f0` = `t3`.`hotelname` AND `t1`.`$f3` = `t3`.`weatherdate` |
+| INNER JOIN (SELECT `averagetemperaturecelsius`, `averagetemperaturefahrenheit`, `hotelid`, `hotelname`, `weatherdate`, `id`, `date_time`, `site_name`, `posa_continent`, `user_location_country`, `user_location_region`, `user_location_city`, `orig_destination_distance`, `user_id`, `is_mobile`, `is_package`, `channel`, `srch_ci`, `srch_co`, `srch_adults_cnt`, `srch_children_cnt`, `srch_rm_cnt`, `srch_destination_id`, `srch_destination_type_id`, `hotel_id` |
+| FROM `default`.`hotels_weather_expedia`            |
+| WHERE `id` IS NOT NULL AND `hotelid` IS NOT NULL AND `hotelname` IS NOT NULL AND `weatherdate` IS NOT NULL) AS `t5` ON `t1`.`$f2` = `t5`.`id` AND `t1`.`$f1` = `t5`.`hotelid` AND `t1`.`$f0` = `t5`.`hotelname` AND `t1`.`$f4` = `t5`.`weatherdate` |
+| STAGE DEPENDENCIES:                                |
+|   Stage-1 is a root stage                          |
+|   Stage-0 depends on stages: Stage-1               |
+|                                                    |
+| STAGE PLANS:                                       |
+|   Stage: Stage-1                                   |
+|     Tez                                            |
+|       DagId: hive_20200119165240_67e87688-4195-4033-9211-2abc8b27e958:47 |
+|       Edges:                                       |
+|         Map 3 <- Map 4 (BROADCAST_EDGE), Reducer 2 (BROADCAST_EDGE) |
+|         Reducer 2 <- Map 1 (SIMPLE_EDGE)           |
+|       DagName: hive_20200119165240_67e87688-4195-4033-9211-2abc8b27e958:47 |
+|       Vertices:                                    |
+|         Map 1                                      |
+|             Map Operator Tree:                     |
+|                 TableScan                          |
+|                   alias: hotels_weather_expedia    |
+|                   filterExpr: ((datediff(srch_co, srch_ci) >= 7) and id is not null and hotelid is not null and hotelname is not null and srch_ci is not null and srch_co is not null) (type: boolean) |
+|                   Statistics: Num rows: 10000 Data size: 382160 Basic stats: COMPLETE Column stats: NONE |
+|                   GatherStats: false               |
+|                   Filter Operator                  |
+|                     isSamplingPred: false          |
+|                     predicate: ((datediff(srch_co, srch_ci) >= 7) and id is not null and hotelid is not null and hotelname is not null and srch_ci is not null and srch_co is not null) (type: boolean) |
+|                     Statistics: Num rows: 3333 Data size: 127373 Basic stats: COMPLETE Column stats: NONE |
+|                     Group By Operator              |
+|                       aggregations: sum(averagetemperaturecelsius), count(averagetemperaturecelsius), sum(averagetemperaturefahrenheit), count(averagetemperaturefahrenheit) |
+|                       keys: hotelname (type: string), hotelid (type: double), id (type: bigint), srch_ci (type: string), srch_co (type: string) |
+|                       mode: hash                   |
+|                       outputColumnNames: _col0, _col1, _col2, _col3, _col4, _col5, _col6, _col7, _col8 |
+|                       Statistics: Num rows: 3333 Data size: 127373 Basic stats: COMPLETE Column stats: NONE |
+|                       Reduce Output Operator       |
+|                         key expressions: _col0 (type: string), _col1 (type: double), _col2 (type: bigint), _col3 (type: string), _col4 (type: string) |
+|                         null sort order: aaaaa     |
+|                         sort order: +++++          |
+|                         Map-reduce partition columns: _col0 (type: string), _col1 (type: double), _col2 (type: bigint), _col3 (type: string), _col4 (type: string) |
+|                         Statistics: Num rows: 3333 Data size: 127373 Basic stats: COMPLETE Column stats: NONE |
+|                         tag: -1                    |
+|                         value expressions: _col5 (type: double), _col6 (type: bigint), _col7 (type: double), _col8 (type: bigint) |
+|                         auto parallelism: true     |
+|             Execution mode: vectorized             |
+|             Path -> Alias:                         |
+|               hdfs://sandbox-hdp.hortonworks.com:8020/warehouse/tablespace/managed/hive/hotels_weather_expedia [hotels_weather_expedia] |
+|             Path -> Partition:                     |
+|               hdfs://sandbox-hdp.hortonworks.com:8020/warehouse/tablespace/managed/hive/hotels_weather_expedia  |
+|                 Partition                          |
+|                   base file name: hotels_weather_expedia |
+|                   input format: org.apache.hadoop.hive.ql.io.orc.OrcInputFormat |
+|                   output format: org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat |
+|                   properties:                      |
+|                     COLUMN_STATS_ACCURATE {"BASIC_STATS":"true"} |
+|                     bucket_count -1                |
+|                     bucketing_version 2            |
+|                     column.name.delimiter ,        |
+|                     columns averagetemperaturecelsius,averagetemperaturefahrenheit,hotelid,hotelname,weatherdate,id,date_time,site_name,posa_continent,user_location_country,user_location_region,user_location_city,orig_destination_distance,user_id,is_mobile,is_package,channel,srch_ci,srch_co,srch_adults_cnt,srch_children_cnt,srch_rm_cnt,srch_destination_id,srch_destination_type_id,hotel_id |
+|                     columns.comments               |
+|                     columns.types double:double:double:string:string:bigint:string:int:int:int:int:int:double:int:int:int:int:string:string:int:int:int:int:int:bigint |
+|                     file.inputformat org.apache.hadoop.hive.ql.io.orc.OrcInputFormat |
+|                     file.outputformat org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat |
+|                     location hdfs://sandbox-hdp.hortonworks.com:8020/warehouse/tablespace/managed/hive/hotels_weather_expedia |
+|                     name default.hotels_weather_expedia |
+|                     numFiles 1                     |
+|                     numRows 10000                  |
+|                     rawDataSize 0                  |
+|                     serialization.ddl struct hotels_weather_expedia { double averagetemperaturecelsius, double averagetemperaturefahrenheit, double hotelid, string hotelname, string weatherdate, i64 id, string date_time, i32 site_name, i32 posa_continent, i32 user_location_country, i32 user_location_region, i32 user_location_city, double orig_destination_distance, i32 user_id, i32 is_mobile, i32 is_package, i32 channel, string srch_ci, string srch_co, i32 srch_adults_cnt, i32 srch_children_cnt, i32 srch_rm_cnt, i32 srch_destination_id, i32 srch_destination_type_id, i64 hotel_id} |
+|                     serialization.format 1         |
+|                     serialization.lib org.apache.hadoop.hive.ql.io.orc.OrcSerde |
+|                     totalSize 38216                |
+|                     transactional true             |
+|                     transactional_properties default |
+|                     transient_lastDdlTime 1579367747 |
+|                   serde: org.apache.hadoop.hive.ql.io.orc.OrcSerde |
+|                                                    |
+|                     input format: org.apache.hadoop.hive.ql.io.orc.OrcInputFormat |
+|                     output format: org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat |
+|                     properties:                    |
+|                       COLUMN_STATS_ACCURATE {"BASIC_STATS":"true"} |
+|                       bucket_count -1              |
+|                       bucketing_version 2          |
+|                       column.name.delimiter ,      |
+|                       columns averagetemperaturecelsius,averagetemperaturefahrenheit,hotelid,hotelname,weatherdate,id,date_time,site_name,posa_continent,user_location_country,user_location_region,user_location_city,orig_destination_distance,user_id,is_mobile,is_package,channel,srch_ci,srch_co,srch_adults_cnt,srch_children_cnt,srch_rm_cnt,srch_destination_id,srch_destination_type_id,hotel_id |
+|                       columns.comments             |
+|                       columns.types double:double:double:string:string:bigint:string:int:int:int:int:int:double:int:int:int:int:string:string:int:int:int:int:int:bigint |
+|                       file.inputformat org.apache.hadoop.hive.ql.io.orc.OrcInputFormat |
+|                       file.outputformat org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat |
+|                       location hdfs://sandbox-hdp.hortonworks.com:8020/warehouse/tablespace/managed/hive/hotels_weather_expedia |
+|                       name default.hotels_weather_expedia |
+|                       numFiles 1                   |
+|                       numRows 10000                |
+|                       rawDataSize 0                |
++----------------------------------------------------+
+|                      Explain                       |
++----------------------------------------------------+
+|                       serialization.ddl struct hotels_weather_expedia { double averagetemperaturecelsius, double averagetemperaturefahrenheit, double hotelid, string hotelname, string weatherdate, i64 id, string date_time, i32 site_name, i32 posa_continent, i32 user_location_country, i32 user_location_region, i32 user_location_city, double orig_destination_distance, i32 user_id, i32 is_mobile, i32 is_package, i32 channel, string srch_ci, string srch_co, i32 srch_adults_cnt, i32 srch_children_cnt, i32 srch_rm_cnt, i32 srch_destination_id, i32 srch_destination_type_id, i64 hotel_id} |
+|                       serialization.format 1       |
+|                       serialization.lib org.apache.hadoop.hive.ql.io.orc.OrcSerde |
+|                       totalSize 38216              |
+|                       transactional true           |
+|                       transactional_properties default |
+|                       transient_lastDdlTime 1579367747 |
+|                     serde: org.apache.hadoop.hive.ql.io.orc.OrcSerde |
+|                     name: default.hotels_weather_expedia |
+|                   name: default.hotels_weather_expedia |
+|             Truncated Path -> Alias:               |
+|               /hotels_weather_expedia [hotels_weather_expedia] |
+|         Map 3                                      |
+|             Map Operator Tree:                     |
+|                 TableScan                          |
+|                   alias: w1                        |
+|                   filterExpr: (id is not null and hotelid is not null and hotelname is not null and weatherdate is not null) (type: boolean) |
+|                   Statistics: Num rows: 10000 Data size: 382160 Basic stats: COMPLETE Column stats: NONE |
+|                   GatherStats: false               |
+|                   Filter Operator                  |
+|                     isSamplingPred: false          |
+|                     predicate: (id is not null and hotelid is not null and hotelname is not null and weatherdate is not null) (type: boolean) |
+|                     Statistics: Num rows: 10000 Data size: 382160 Basic stats: COMPLETE Column stats: NONE |
+|                     Select Operator                |
+|                       expressions: averagetemperaturecelsius (type: double), averagetemperaturefahrenheit (type: double), hotelid (type: double), hotelname (type: string), weatherdate (type: string), id (type: bigint), date_time (type: string), site_name (type: int), posa_continent (type: int), user_location_country (type: int), user_location_region (type: int), user_location_city (type: int), orig_destination_distance (type: double), user_id (type: int), is_mobile (type: int), is_package (type: int), channel (type: int), srch_ci (type: string), srch_co (type: string), srch_adults_cnt (type: int), srch_children_cnt (type: int), srch_rm_cnt (type: int), srch_destination_id (type: int), srch_destination_type_id (type: int), hotel_id (type: bigint) |
+|                       outputColumnNames: _col0, _col1, _col2, _col3, _col4, _col5, _col6, _col7, _col8, _col9, _col10, _col11, _col12, _col13, _col14, _col15, _col16, _col17, _col18, _col19, _col20, _col21, _col22, _col23, _col24 |
+|                       Statistics: Num rows: 10000 Data size: 382160 Basic stats: COMPLETE Column stats: NONE |
+|                       Map Join Operator            |
+|                         condition map:             |
+|                              Inner Join 0 to 1     |
+|                         Estimated key counts: Reducer 2 => 1666 |
+|                         keys:                      |
+|                           0 _col0 (type: string), _col1 (type: double), _col2 (type: bigint), _col3 (type: string) |
+|                           1 _col3 (type: string), _col2 (type: double), _col5 (type: bigint), _col4 (type: string) |
+|                         outputColumnNames: _col0, _col1, _col2, _col3, _col4, _col5, _col6, _col7, _col8, _col9, _col10, _col11, _col12, _col13, _col14, _col15, _col16, _col17, _col18, _col19, _col20, _col21, _col22, _col23, _col24, _col25, _col26, _col27, _col28, _col29, _col30, _col31 |
+|                         input vertices:            |
+|                           0 Reducer 2              |
+|                         Position of Big Table: 1   |
+|                         Statistics: Num rows: 11000 Data size: 420376 Basic stats: COMPLETE Column stats: NONE |
+|                         HybridGraceHashJoin: true  |
+|                         Map Join Operator          |
+|                           condition map:           |
+|                                Inner Join 0 to 1   |
+|                           Estimated key counts: Map 4 => 10000 |
+|                           keys:                    |
+|                             0 _col0 (type: string), _col1 (type: double), _col2 (type: bigint), _col4 (type: string) |
+|                             1 _col3 (type: string), _col2 (type: double), _col5 (type: bigint), _col4 (type: string) |
+|                           outputColumnNames: _col0, _col1, _col2, _col3, _col4, _col5, _col6, _col7, _col8, _col9, _col10, _col11, _col12, _col13, _col14, _col15, _col16, _col17, _col18, _col19, _col20, _col21, _col22, _col23, _col24, _col25, _col26, _col27, _col28, _col29, _col30, _col31, _col32, _col33, _col34, _col35, _col36, _col37, _col38, _col39, _col40, _col41, _col42, _col43, _col44, _col45, _col46, _col47, _col48, _col49, _col50, _col51, _col52, _col53, _col54, _col55, _col56 |
+|                           input vertices:          |
+|                             1 Map 4                |
+|                           Position of Big Table: 0 |
+|                           Statistics: Num rows: 12100 Data size: 462413 Basic stats: COMPLETE Column stats: NONE |
+|                           HybridGraceHashJoin: true |
+|                           Select Operator          |
+|                             expressions: _col0 (type: string), _col1 (type: double), _col2 (type: bigint), _col3 (type: string), _col4 (type: string), _col5 (type: double), _col6 (type: double), _col7 (type: double), _col8 (type: double), _col9 (type: double), _col10 (type: string), _col11 (type: string), _col12 (type: bigint), _col13 (type: string), _col14 (type: int), _col15 (type: int), _col16 (type: int), _col17 (type: int), _col18 (type: int), _col19 (type: double), _col20 (type: int), _col21 (type: int), _col22 (type: int), _col23 (type: int), _col24 (type: string), _col25 (type: string), _col26 (type: int), _col27 (type: int), _col28 (type: int), _col29 (type: int), _col30 (type: int), _col31 (type: bigint), _col32 (type: double), _col33 (type: double), _col34 (type: double), _col35 (type: string), _col36 (type: string), _col37 (type: bigint), _col38 (type: string), _col39 (type: int), _col40 (type: int), _col41 (type: int), _col42 (type: int), _col43 (type: int), _col44 (type: double), _col45 (type: int), _col46 (type: int), _col47 (type: int), _col48 (type: int), _col49 (type: string), _col50 (type: string), _col51 (type: int), _col52 (type: int), _col53 (type: int), _col54 (type: int), _col55 (type: int), _col56 (type: bigint), (_col7 - _col32) (type: double), (_col8 - _col33) (type: double) |
+|                             outputColumnNames: _col0, _col1, _col2, _col3, _col4, _col5, _col6, _col7, _col8, _col9, _col10, _col11, _col12, _col13, _col14, _col15, _col16, _col17, _col18, _col19, _col20, _col21, _col22, _col23, _col24, _col25, _col26, _col27, _col28, _col29, _col30, _col31, _col32, _col33, _col34, _col35, _col36, _col37, _col38, _col39, _col40, _col41, _col42, _col43, _col44, _col45, _col46, _col47, _col48, _col49, _col50, _col51, _col52, _col53, _col54, _col55, _col56, _col57, _col58 |
+|                             Statistics: Num rows: 12100 Data size: 462413 Basic stats: COMPLETE Column stats: NONE |
+|                             File Output Operator   |
+|                               compressed: false    |
+|                               GlobalTableId: 0     |
+|                               directory: hdfs://sandbox-hdp.hortonworks.com:8020/tmp/hive/hive/b5d2ae43-749b-4d29-8a8f-6c0411790929/hive_2020-01-19_16-52-40_793_5472402868901267892-94/-mr-10001/.hive-staging_hive_2020-01-19_16-52-40_793_5472402868901267892-94/-ext-10002 |
+|                               NumFilesPerFileSink: 1 |
+|                               Statistics: Num rows: 12100 Data size: 462413 Basic stats: COMPLETE Column stats: NONE |
+|                               Stats Publishing Key Prefix: hdfs://sandbox-hdp.hortonworks.com:8020/tmp/hive/hive/b5d2ae43-749b-4d29-8a8f-6c0411790929/hive_2020-01-19_16-52-40_793_5472402868901267892-94/-mr-10001/.hive-staging_hive_2020-01-19_16-52-40_793_5472402868901267892-94/-ext-10002/ |
+|                               table:               |
+|                                   input format: org.apache.hadoop.mapred.SequenceFileInputFormat |
+|                                   output format: org.apache.hadoop.hive.ql.io.HiveSequenceFileOutputFormat |
+|                                   properties:      |
+|                                     columns _col0,_col1,_col2,_col3,_col4,_col5,_col6,_col7,_col8,_col9,_col10,_col11,_col12,_col13,_col14,_col15,_col16,_col17,_col18,_col19,_col20,_col21,_col22,_col23,_col24,_col25,_col26,_col27,_col28,_col29,_col30,_col31,_col32,_col33,_col34,_col35,_col36,_col37,_col38,_col39,_col40,_col41,_col42,_col43,_col44,_col45,_col46,_col47,_col48,_col49,_col50,_col51,_col52,_col53,_col54,_col55,_col56,_col57,_col58 |
+|                                     columns.types string:double:bigint:string:string:double:double:double:double:double:string:string:bigint:string:int:int:int:int:int:double:int:int:int:int:string:string:int:int:int:int:int:bigint:double:double:double:string:string:bigint:string:int:int:int:int:int:double:int:int:int:int:string:string:int:int:int:int:int:bigint:double:double |
+|                                     escape.delim \ |
+|                                     hive.serialization.extend.additional.nesting.levels true |
+|                                     serialization.escape.crlf true |
+|                                     serialization.format 1 |
+|                                     serialization.lib org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe |
+|                                   serde: org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe |
+|                               TotalFiles: 1        |
+|                               GatherStats: false   |
+|                               MultiFileSpray: false |
+|             Execution mode: vectorized             |
+|             Path -> Alias:                         |
+|               hdfs://sandbox-hdp.hortonworks.com:8020/warehouse/tablespace/managed/hive/hotels_weather_expedia [w1] |
+|             Path -> Partition:                     |
+|               hdfs://sandbox-hdp.hortonworks.com:8020/warehouse/tablespace/managed/hive/hotels_weather_expedia  |
+|                 Partition                          |
+|                   base file name: hotels_weather_expedia |
+|                   input format: org.apache.hadoop.hive.ql.io.orc.OrcInputFormat |
+|                   output format: org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat |
+|                   properties:                      |
+|                     COLUMN_STATS_ACCURATE {"BASIC_STATS":"true"} |
+|                     bucket_count -1                |
+|                     bucketing_version 2            |
+|                     column.name.delimiter ,        |
+|                     columns averagetemperaturecelsius,averagetemperaturefahrenheit,hotelid,hotelname,weatherdate,id,date_time,site_name,posa_continent,user_location_country,user_location_region,user_location_city,orig_destination_distance,user_id,is_mobile,is_package,channel,srch_ci,srch_co,srch_adults_cnt,srch_children_cnt,srch_rm_cnt,srch_destination_id,srch_destination_type_id,hotel_id |
+|                     columns.comments               |
+|                     columns.types double:double:double:string:string:bigint:string:int:int:int:int:int:double:int:int:int:int:string:string:int:int:int:int:int:bigint |
+|                     file.inputformat org.apache.hadoop.hive.ql.io.orc.OrcInputFormat |
+|                     file.outputformat org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat |
+|                     location hdfs://sandbox-hdp.hortonworks.com:8020/warehouse/tablespace/managed/hive/hotels_weather_expedia |
+|                     name default.hotels_weather_expedia |
++----------------------------------------------------+
+|                      Explain                       |
++----------------------------------------------------+
+|                     numFiles 1                     |
+|                     numRows 10000                  |
+|                     rawDataSize 0                  |
+|                     serialization.ddl struct hotels_weather_expedia { double averagetemperaturecelsius, double averagetemperaturefahrenheit, double hotelid, string hotelname, string weatherdate, i64 id, string date_time, i32 site_name, i32 posa_continent, i32 user_location_country, i32 user_location_region, i32 user_location_city, double orig_destination_distance, i32 user_id, i32 is_mobile, i32 is_package, i32 channel, string srch_ci, string srch_co, i32 srch_adults_cnt, i32 srch_children_cnt, i32 srch_rm_cnt, i32 srch_destination_id, i32 srch_destination_type_id, i64 hotel_id} |
+|                     serialization.format 1         |
+|                     serialization.lib org.apache.hadoop.hive.ql.io.orc.OrcSerde |
+|                     totalSize 38216                |
+|                     transactional true             |
+|                     transactional_properties default |
+|                     transient_lastDdlTime 1579367747 |
+|                   serde: org.apache.hadoop.hive.ql.io.orc.OrcSerde |
+|                                                    |
+|                     input format: org.apache.hadoop.hive.ql.io.orc.OrcInputFormat |
+|                     output format: org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat |
+|                     properties:                    |
+|                       COLUMN_STATS_ACCURATE {"BASIC_STATS":"true"} |
+|                       bucket_count -1              |
+|                       bucketing_version 2          |
+|                       column.name.delimiter ,      |
+|                       columns averagetemperaturecelsius,averagetemperaturefahrenheit,hotelid,hotelname,weatherdate,id,date_time,site_name,posa_continent,user_location_country,user_location_region,user_location_city,orig_destination_distance,user_id,is_mobile,is_package,channel,srch_ci,srch_co,srch_adults_cnt,srch_children_cnt,srch_rm_cnt,srch_destination_id,srch_destination_type_id,hotel_id |
+|                       columns.comments             |
+|                       columns.types double:double:double:string:string:bigint:string:int:int:int:int:int:double:int:int:int:int:string:string:int:int:int:int:int:bigint |
+|                       file.inputformat org.apache.hadoop.hive.ql.io.orc.OrcInputFormat |
+|                       file.outputformat org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat |
+|                       location hdfs://sandbox-hdp.hortonworks.com:8020/warehouse/tablespace/managed/hive/hotels_weather_expedia |
+|                       name default.hotels_weather_expedia |
+|                       numFiles 1                   |
+|                       numRows 10000                |
+|                       rawDataSize 0                |
+|                       serialization.ddl struct hotels_weather_expedia { double averagetemperaturecelsius, double averagetemperaturefahrenheit, double hotelid, string hotelname, string weatherdate, i64 id, string date_time, i32 site_name, i32 posa_continent, i32 user_location_country, i32 user_location_region, i32 user_location_city, double orig_destination_distance, i32 user_id, i32 is_mobile, i32 is_package, i32 channel, string srch_ci, string srch_co, i32 srch_adults_cnt, i32 srch_children_cnt, i32 srch_rm_cnt, i32 srch_destination_id, i32 srch_destination_type_id, i64 hotel_id} |
+|                       serialization.format 1       |
+|                       serialization.lib org.apache.hadoop.hive.ql.io.orc.OrcSerde |
+|                       totalSize 38216              |
+|                       transactional true           |
+|                       transactional_properties default |
+|                       transient_lastDdlTime 1579367747 |
+|                     serde: org.apache.hadoop.hive.ql.io.orc.OrcSerde |
+|                     name: default.hotels_weather_expedia |
+|                   name: default.hotels_weather_expedia |
+|             Truncated Path -> Alias:               |
+|               /hotels_weather_expedia [w1]         |
+|         Map 4                                      |
+|             Map Operator Tree:                     |
+|                 TableScan                          |
+|                   alias: w2                        |
+|                   filterExpr: (id is not null and hotelid is not null and hotelname is not null and weatherdate is not null) (type: boolean) |
+|                   Statistics: Num rows: 10000 Data size: 382160 Basic stats: COMPLETE Column stats: NONE |
+|                   GatherStats: false               |
+|                   Filter Operator                  |
+|                     isSamplingPred: false          |
+|                     predicate: (id is not null and hotelid is not null and hotelname is not null and weatherdate is not null) (type: boolean) |
+|                     Statistics: Num rows: 10000 Data size: 382160 Basic stats: COMPLETE Column stats: NONE |
+|                     Select Operator                |
+|                       expressions: averagetemperaturecelsius (type: double), averagetemperaturefahrenheit (type: double), hotelid (type: double), hotelname (type: string), weatherdate (type: string), id (type: bigint), date_time (type: string), site_name (type: int), posa_continent (type: int), user_location_country (type: int), user_location_region (type: int), user_location_city (type: int), orig_destination_distance (type: double), user_id (type: int), is_mobile (type: int), is_package (type: int), channel (type: int), srch_ci (type: string), srch_co (type: string), srch_adults_cnt (type: int), srch_children_cnt (type: int), srch_rm_cnt (type: int), srch_destination_id (type: int), srch_destination_type_id (type: int), hotel_id (type: bigint) |
+|                       outputColumnNames: _col0, _col1, _col2, _col3, _col4, _col5, _col6, _col7, _col8, _col9, _col10, _col11, _col12, _col13, _col14, _col15, _col16, _col17, _col18, _col19, _col20, _col21, _col22, _col23, _col24 |
+|                       Statistics: Num rows: 10000 Data size: 382160 Basic stats: COMPLETE Column stats: NONE |
+|                       Reduce Output Operator       |
+|                         key expressions: _col3 (type: string), _col2 (type: double), _col5 (type: bigint), _col4 (type: string) |
+|                         null sort order: aaaa      |
+|                         sort order: ++++           |
+|                         Map-reduce partition columns: _col3 (type: string), _col2 (type: double), _col5 (type: bigint), _col4 (type: string) |
+|                         Statistics: Num rows: 10000 Data size: 382160 Basic stats: COMPLETE Column stats: NONE |
+|                         tag: 1                     |
+|                         value expressions: _col0 (type: double), _col1 (type: double), _col6 (type: string), _col7 (type: int), _col8 (type: int), _col9 (type: int), _col10 (type: int), _col11 (type: int), _col12 (type: double), _col13 (type: int), _col14 (type: int), _col15 (type: int), _col16 (type: int), _col17 (type: string), _col18 (type: string), _col19 (type: int), _col20 (type: int), _col21 (type: int), _col22 (type: int), _col23 (type: int), _col24 (type: bigint) |
+|                         auto parallelism: true     |
+|             Execution mode: vectorized             |
+|             Path -> Alias:                         |
+|               hdfs://sandbox-hdp.hortonworks.com:8020/warehouse/tablespace/managed/hive/hotels_weather_expedia [w2] |
+|             Path -> Partition:                     |
+|               hdfs://sandbox-hdp.hortonworks.com:8020/warehouse/tablespace/managed/hive/hotels_weather_expedia  |
+|                 Partition                          |
+|                   base file name: hotels_weather_expedia |
+|                   input format: org.apache.hadoop.hive.ql.io.orc.OrcInputFormat |
+|                   output format: org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat |
+|                   properties:                      |
+|                     COLUMN_STATS_ACCURATE {"BASIC_STATS":"true"} |
+|                     bucket_count -1                |
+|                     bucketing_version 2            |
+|                     column.name.delimiter ,        |
+|                     columns averagetemperaturecelsius,averagetemperaturefahrenheit,hotelid,hotelname,weatherdate,id,date_time,site_name,posa_continent,user_location_country,user_location_region,user_location_city,orig_destination_distance,user_id,is_mobile,is_package,channel,srch_ci,srch_co,srch_adults_cnt,srch_children_cnt,srch_rm_cnt,srch_destination_id,srch_destination_type_id,hotel_id |
+|                     columns.comments               |
+|                     columns.types double:double:double:string:string:bigint:string:int:int:int:int:int:double:int:int:int:int:string:string:int:int:int:int:int:bigint |
+|                     file.inputformat org.apache.hadoop.hive.ql.io.orc.OrcInputFormat |
+|                     file.outputformat org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat |
+|                     location hdfs://sandbox-hdp.hortonworks.com:8020/warehouse/tablespace/managed/hive/hotels_weather_expedia |
+|                     name default.hotels_weather_expedia |
+|                     numFiles 1                     |
+|                     numRows 10000                  |
+|                     rawDataSize 0                  |
+|                     serialization.ddl struct hotels_weather_expedia { double averagetemperaturecelsius, double averagetemperaturefahrenheit, double hotelid, string hotelname, string weatherdate, i64 id, string date_time, i32 site_name, i32 posa_continent, i32 user_location_country, i32 user_location_region, i32 user_location_city, double orig_destination_distance, i32 user_id, i32 is_mobile, i32 is_package, i32 channel, string srch_ci, string srch_co, i32 srch_adults_cnt, i32 srch_children_cnt, i32 srch_rm_cnt, i32 srch_destination_id, i32 srch_destination_type_id, i64 hotel_id} |
+|                     serialization.format 1         |
+|                     serialization.lib org.apache.hadoop.hive.ql.io.orc.OrcSerde |
+|                     totalSize 38216                |
+|                     transactional true             |
+|                     transactional_properties default |
+|                     transient_lastDdlTime 1579367747 |
+|                   serde: org.apache.hadoop.hive.ql.io.orc.OrcSerde |
+|                                                    |
+|                     input format: org.apache.hadoop.hive.ql.io.orc.OrcInputFormat |
+|                     output format: org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat |
++----------------------------------------------------+
+|                      Explain                       |
++----------------------------------------------------+
+|                     properties:                    |
+|                       COLUMN_STATS_ACCURATE {"BASIC_STATS":"true"} |
+|                       bucket_count -1              |
+|                       bucketing_version 2          |
+|                       column.name.delimiter ,      |
+|                       columns averagetemperaturecelsius,averagetemperaturefahrenheit,hotelid,hotelname,weatherdate,id,date_time,site_name,posa_continent,user_location_country,user_location_region,user_location_city,orig_destination_distance,user_id,is_mobile,is_package,channel,srch_ci,srch_co,srch_adults_cnt,srch_children_cnt,srch_rm_cnt,srch_destination_id,srch_destination_type_id,hotel_id |
+|                       columns.comments             |
+|                       columns.types double:double:double:string:string:bigint:string:int:int:int:int:int:double:int:int:int:int:string:string:int:int:int:int:int:bigint |
+|                       file.inputformat org.apache.hadoop.hive.ql.io.orc.OrcInputFormat |
+|                       file.outputformat org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat |
+|                       location hdfs://sandbox-hdp.hortonworks.com:8020/warehouse/tablespace/managed/hive/hotels_weather_expedia |
+|                       name default.hotels_weather_expedia |
+|                       numFiles 1                   |
+|                       numRows 10000                |
+|                       rawDataSize 0                |
+|                       serialization.ddl struct hotels_weather_expedia { double averagetemperaturecelsius, double averagetemperaturefahrenheit, double hotelid, string hotelname, string weatherdate, i64 id, string date_time, i32 site_name, i32 posa_continent, i32 user_location_country, i32 user_location_region, i32 user_location_city, double orig_destination_distance, i32 user_id, i32 is_mobile, i32 is_package, i32 channel, string srch_ci, string srch_co, i32 srch_adults_cnt, i32 srch_children_cnt, i32 srch_rm_cnt, i32 srch_destination_id, i32 srch_destination_type_id, i64 hotel_id} |
+|                       serialization.format 1       |
+|                       serialization.lib org.apache.hadoop.hive.ql.io.orc.OrcSerde |
+|                       totalSize 38216              |
+|                       transactional true           |
+|                       transactional_properties default |
+|                       transient_lastDdlTime 1579367747 |
+|                     serde: org.apache.hadoop.hive.ql.io.orc.OrcSerde |
+|                     name: default.hotels_weather_expedia |
+|                   name: default.hotels_weather_expedia |
+|             Truncated Path -> Alias:               |
+|               /hotels_weather_expedia [w2]         |
+|         Reducer 2                                  |
+|             Execution mode: vectorized             |
+|             Needs Tagging: false                   |
+|             Reduce Operator Tree:                  |
+|               Group By Operator                    |
+|                 aggregations: sum(VALUE._col0), count(VALUE._col1), sum(VALUE._col2), count(VALUE._col3) |
+|                 keys: KEY._col0 (type: string), KEY._col1 (type: double), KEY._col2 (type: bigint), KEY._col3 (type: string), KEY._col4 (type: string) |
+|                 mode: mergepartial                 |
+|                 outputColumnNames: _col0, _col1, _col2, _col3, _col4, _col5, _col6, _col7, _col8 |
+|                 Statistics: Num rows: 1666 Data size: 63667 Basic stats: COMPLETE Column stats: NONE |
+|                 Select Operator                    |
+|                   expressions: _col0 (type: string), _col1 (type: double), _col2 (type: bigint), _col3 (type: string), _col4 (type: string), (_col5 / _col6) (type: double), (_col7 / _col8) (type: double) |
+|                   outputColumnNames: _col0, _col1, _col2, _col3, _col4, _col5, _col6 |
+|                   Statistics: Num rows: 1666 Data size: 63667 Basic stats: COMPLETE Column stats: NONE |
+|                   Reduce Output Operator           |
+|                     key expressions: _col0 (type: string), _col1 (type: double), _col2 (type: bigint), _col3 (type: string) |
+|                     null sort order: aaaa          |
+|                     sort order: ++++               |
+|                     Map-reduce partition columns: _col0 (type: string), _col1 (type: double), _col2 (type: bigint), _col3 (type: string) |
+|                     Statistics: Num rows: 1666 Data size: 63667 Basic stats: COMPLETE Column stats: NONE |
+|                     tag: 0                         |
+|                     value expressions: _col4 (type: string), _col5 (type: double), _col6 (type: double) |
+|                     auto parallelism: true         |
+|                                                    |
+|   Stage: Stage-0                                   |
+|     Fetch Operator                                 |
+|       limit: -1                                    |
+|       Processor Tree:                              |
+|         ListSink                                   |
+|                                                    |
++----------------------------------------------------+
