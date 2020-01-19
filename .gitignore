@@ -1,7 +1,7 @@
 # idea
 .idea/
 *.iml
-gittarget/
+target/
 
 # misc
 *.log
