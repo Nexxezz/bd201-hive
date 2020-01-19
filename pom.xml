@@ -10,13 +10,21 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <hdp.version>3.1.0.3.0.1.0-187</hdp.version>
     </properties>
+    <repositories>
+        <repository>
+            <id>hortonworks</id>
+            <name>hortonworks-repo</name>
+            <url>https://repo.hortonworks.com/content/repositories/releases/</url>
+        </repository>
+    </repositories>
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.apache.hive/hive-exec -->
         <dependency>
             <groupId>org.apache.hive</groupId>
             <artifactId>hive-exec</artifactId>
-            <version>1.2.0</version>
+            <version>${hdp.version}</version>
         </dependency>
+
     </dependencies>
 </project>
