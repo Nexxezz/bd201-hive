@@ -9,8 +9,8 @@ Follow steps for TopicSaver3 in [README.md](https://github.com/Nexxezz/kafkastre
  * move expedia schema to HDFS:  
  ```hdfs dfs -put expedia.avsc /path/to/datset```
  * create external table for expedia table:
-    * check that hive have access to dataset folder(if not ```hdfs dfs -chmod 777 /path/to/dataset/folder```)
-      ```CREATE EXTERNAL TABLE expedia /  
+    * check that hive have access to dataset folder(if not ```hdfs dfs -chmod 777 /path/to/dataset/folder```)  
+    ```CREATE EXTERNAL TABLE expedia /  
       ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.avro.AvroSerDe' /  
       STORED AS INPUTFORMAT 'org.apache.hadoop.hive.ql.io.avro.AvroContainerInputFormat' /  
       OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.avro.AvroContainerOutputFormat' /  
