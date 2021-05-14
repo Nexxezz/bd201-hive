@@ -10,7 +10,7 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <hdp.version>3.1.0.3.0.1.0-187</hdp.version>
+        <hdp.version>3.1.1</hdp.version>
     </properties>
     <repositories>
         <repository>
